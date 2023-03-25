@@ -12,7 +12,7 @@
     "test-storybook": "test-storybook",
     "test-storybook:watch": "test-storybook --watch",
     "chromatic": "npx chromatic",
-    "cypress": "cypress open --config-file=cypress.config.js"
+    "cypress": "cypress open --config-file=cypress.config.ts"
   },
   "dependencies": {
     "@types/node": "18.15.6",
