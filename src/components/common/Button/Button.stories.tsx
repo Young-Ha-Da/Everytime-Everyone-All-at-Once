@@ -1,6 +1,6 @@
 import { Button } from './Button';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { within, userEvent, findByRole } from '@storybook/testing-library';
+import { within, userEvent } from '@storybook/testing-library';
 import { expect } from '@storybook/jest';
 
 export default {

@@ -1,31 +1,44 @@
 import { useReducer, useEffect } from 'react';
 
-function getTasks(options) {
+export interface Task {
+  id: string;
+  title: string;
+  state: string;
+}
+
+function getTasks(options: object) {
   return fetch('/tasks', options).then((res) => res.json());
 }
 
-function updateTask(tasks, id, updatedTask) {
-  return tasks.map((task) => (task.id === id ? { ...task, ...updatedTask } : task));
+function updateTask(tasks: Task[], id: string, updatedTask: object): Task[] {
+  return tasks.map((task: Task) => (task.id === id ? { ...task, ...updatedTask } : task));
 }
 
-function deleteTask(tasks, id) {
-  return tasks.filter((task) => task.id !== id);
+function deleteTask(tasks: Task[], id: string): Task[] {
+  return tasks.filter((task: Task) => task.id !== id);
 }
 
-export const reducer = (tasks, action) => {
+interface Actions {
+  type: string;
+  id?: string;
+  title?: string;
+  tasks: Task[];
+}
+
+export const reducer = (tasks: Task[], action: Actions): Task[] => {
   switch (action.type) {
     case 'UPDATE_TASKS':
       return action.tasks;
     case 'ARCHIVE_TASK':
-      return updateTask(tasks, action.id, { state: 'TASK_ARCHIVED' });
+      return updateTask(tasks, action.id as string, { state: 'TASK_ARCHIVED' });
     case 'PIN_TASK':
-      return updateTask(tasks, action.id, { state: 'TASK_PINNED' });
+      return updateTask(tasks, action.id as string, { state: 'TASK_PINNED' });
     case 'INBOX_TASK':
-      return updateTask(tasks, action.id, { state: 'TASK_INBOX' });
+      return updateTask(tasks, action.id as string, { state: 'TASK_INBOX' });
     case 'DELETE_TASK':
-      return deleteTask(tasks, action.id);
+      return deleteTask(tasks, action.id as string);
     case 'EDIT_TITLE':
-      return updateTask(tasks, action.id, { title: action.title });
+      return updateTask(tasks, action.id as string, { title: action.title });
     default:
       return tasks;
   }

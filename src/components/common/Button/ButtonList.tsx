@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useTasks } from './useTasks';
+import { Task, useTasks } from './useTasks';
 import { Button } from './Button';
 
 export interface ButtonList {
@@ -22,7 +21,7 @@ export const tasks = {
 };
 
 export const ButtonList = ({ error = false }: ButtonList) => {
-  const [tasks, dispatch] = useTasks();
+  const [tasks] = useTasks();
 
   if (error) {
     return (
@@ -32,8 +31,8 @@ export const ButtonList = ({ error = false }: ButtonList) => {
   return (
     <div title="tasks" style={{ width: '500px', height: '500px', backgroundColor: 'tomato' }}>
       {tasks &&
-        tasks.map((task) => (
-          <Button width={100} height={100}>
+        (tasks as Task[]).map((task: Task) => (
+          <Button key={task.id} width={100} height={100}>
             {task.title}
           </Button>
         ))}

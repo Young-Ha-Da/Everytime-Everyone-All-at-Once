@@ -1,4 +1,3 @@
-import React from 'react';
 import { ButtonList, tasks } from './ButtonList';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { rest } from 'msw';
