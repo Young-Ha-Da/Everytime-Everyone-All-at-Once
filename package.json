@@ -11,7 +11,7 @@
     "build-storybook": "build-storybook",
     "test-storybook": "test-storybook",
     "test-storybook:watch": "test-storybook --watch",
-    "chromatic": "npx chromatic --project-token=495d8fced6bd",
+    "chromatic": "npx chromatic",
     "cypress": "cypress open --config-file=cypress.config.js"
   },
   "dependencies": {
