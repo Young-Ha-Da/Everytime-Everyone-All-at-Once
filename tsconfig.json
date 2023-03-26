@@ -19,7 +19,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "types": ["cypress"],
+    "types": ["cypress", "node"],
     "jsx": "preserve",
     "incremental": true,
     "plugins": [

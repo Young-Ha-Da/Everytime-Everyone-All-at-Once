@@ -1,6 +1,6 @@
-import React from 'react';
-import { initialize, mswDecorator } from 'msw-storybook-addon';
+import { initialize } from 'msw-storybook-addon';
 import ko from 'axe-core/locales/ko.json';
+import { globalDecorators } from './decorators';
 
 initialize();
 
@@ -17,4 +17,4 @@ export const parameters = {
   },
 };
 
-export const decorators = [(Story) => <Story />, mswDecorator];
+export const decorators = globalDecorators;
