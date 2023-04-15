@@ -1,4 +1,4 @@
-import { MouseEventHandler } from 'react';
+import { MouseEventHandler, ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 
 export interface ButtonProps {
@@ -6,6 +6,7 @@ export interface ButtonProps {
   onClick: MouseEventHandler<HTMLButtonElement>;
   size: 'big' | 'midium' | 'small';
   backgroundColor: string;
+  children: ReactNode;
   [key: string]: unknown;
 }
 
