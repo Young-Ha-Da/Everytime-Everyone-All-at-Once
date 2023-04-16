@@ -1,8 +1,6 @@
 'use client';
 
-import styles from './page.module.css';
 import { useState } from 'react';
-import { ButtonList } from '@/components';
 
 export default function Home() {
   const [user, setUser] = useState({ id: '', password: '' });
@@ -24,13 +22,12 @@ export default function Home() {
   };
 
   return (
-    <main className={styles.main}>
+    <main>
       <form onSubmit={handleSubmit}>
         <input type="text" name="id" value={user.id} onChange={handleChange} />
         <input type="text" name="password" value={user.password} onChange={handleChange} />
         <button type="submit">Submit</button>
       </form>
-      {isLoggedIn && <ButtonList error={false} />}
     </main>
   );
 }
