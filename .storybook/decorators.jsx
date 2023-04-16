@@ -2,8 +2,7 @@ import React from 'react';
 import { mswDecorator } from 'msw-storybook-addon';
 import { RecoilRoot } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import { GlobalStyle } from '../src/styles/globalStyle';
-import { NormalizeStyle } from '../src/styles/normalizeStyle';
+import { GlobalStyle, NormalizeStyle } from '@/styles';
 
 const queryClient = new QueryClient();
 

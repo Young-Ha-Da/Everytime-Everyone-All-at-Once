@@ -17,6 +17,7 @@ export const GlobalStyle = createGlobalStyle/*css*/ `
     /* drop shadow */
 
     /* text size */
+    --text-xs: 8px;
     --text-sm: 12px;
     --text-bs: 16px;
     --text-md: 20px;
@@ -24,9 +25,23 @@ export const GlobalStyle = createGlobalStyle/*css*/ `
 
     /* text weight */
     --text-regular: 400;
+    --text-semi-bold: 600;
     --text-bold: 700;
 
     /* spacing */ 
+    --space-xs: 8px;
+    --space-sm: 12px;
+    --space-bs: 16px;
+    --space-md: 20px;
+    --space-lg: 24px;
+    --space-xl: 28px;
+    --space-xxl: 32px; 
+
+    /* border radius */
+    --radius-sm: 5px;
+    --radius-bs: 10px;
+    --radius-md: 18px;
+    --radius-lg: 25px;
   }
 
   @font-face {
@@ -43,6 +58,7 @@ export const GlobalStyle = createGlobalStyle/*css*/ `
     src: url('/assets/Cafe24Ssurround.ttf') format('truetype');
     font-display: swap;
   }
+
   #root {
     display: flex;
     flex-direction: column;
