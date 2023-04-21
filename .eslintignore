@@ -1,5 +1,5 @@
 node_modules/
-dist/
+.next/
 .prettierrc.js
 .eslintrc.js
 !.storybook
