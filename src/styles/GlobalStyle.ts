@@ -8,13 +8,16 @@ export const GlobalStyle = createGlobalStyle/*css*/ `
     --black: #1D1D1D;
     --gray: #D1D1D1;
     --red: #FA8B8B;
+    --light-red: #FEDDDD;
     --green: #7EBB94;
+    --light-green: #D9EBDF;
     --purple: #C1BEFA;
     --light-purple: #C1BEFA;
     --yellow: #FEDB9A;
     --light-yellow: #FFF9EB;
 
     /* drop shadow */
+    --shadow-toast: 0px 4px 4px rgba(0, 0, 0, 0.20);
 
     /* text size */
     --text-xs: 8px;
