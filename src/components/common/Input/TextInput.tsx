@@ -15,9 +15,9 @@ export interface TextInputProps {
   css?: FlattenSimpleInterpolation;
 }
 
-export function TextInput({ placeholder, label, hiddenLabel, register }: TextInputProps) {
+export function TextInput({ placeholder, label, hiddenLabel, register, css }: TextInputProps) {
   return (
-    <Div>
+    <Div css={css}>
       <Label className={hiddenLabel ? 'srOnly' : ''} htmlFor={register.name}>
         {label}
       </Label>
@@ -26,7 +26,7 @@ export function TextInput({ placeholder, label, hiddenLabel, register }: TextInp
   );
 }
 
-const Div = styled.div``;
+const Div = styled.div<Partial<TextInputProps>>``;
 const Label = styled.label`
   display: block;
   padding: 6px;
