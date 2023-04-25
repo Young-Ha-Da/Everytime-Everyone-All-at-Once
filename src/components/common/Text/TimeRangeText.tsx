@@ -5,7 +5,7 @@ export interface TimeRangeTextProps {
   fromMinute: string | number;
   toHour: string | number;
   toMinute: string | number;
-  css: FlattenSimpleInterpolation;
+  css?: FlattenSimpleInterpolation;
 }
 
 export function TimeRangeText({ css, fromHour, fromMinute, toHour, toMinute }: TimeRangeTextProps) {
@@ -22,7 +22,7 @@ export function TimeRangeText({ css, fromHour, fromMinute, toHour, toMinute }: T
   );
 }
 
-const P = styled.p`
+const P = styled.p<Partial<TimeRangeTextProps>>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -33,4 +33,6 @@ const P = styled.p`
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+
+  ${({ css }) => css}
 `;

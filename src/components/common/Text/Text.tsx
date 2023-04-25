@@ -1,8 +1,7 @@
-import { ReactNode } from 'react';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
 export interface TextProps {
-  css: FlattenSimpleInterpolation;
+  css?: FlattenSimpleInterpolation;
   children: string;
 }
 
@@ -10,7 +9,7 @@ export function Text({ css, children }: TextProps) {
   return <P css={css}>{children}</P>;
 }
 
-const P = styled.p`
+const P = styled.p<Partial<TextProps>>`
   width: 260px;
   height: 43px;
   padding: 12px;
@@ -22,4 +21,6 @@ const P = styled.p`
   overflow: hidden;
   border: 1px solid var(--black);
   border-radius: var(--radius-bs);
+
+  ${({ css }) => css}
 `;
