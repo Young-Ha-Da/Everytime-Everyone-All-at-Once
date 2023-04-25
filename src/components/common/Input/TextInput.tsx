@@ -26,7 +26,9 @@ export function TextInput({ placeholder, label, hiddenLabel, register, css }: Te
   );
 }
 
-const Div = styled.div<Partial<TextInputProps>>``;
+const Div = styled.div<Partial<TextInputProps>>`
+  ${({ css }) => css}
+`;
 const Label = styled.label`
   display: block;
   padding: 6px;
