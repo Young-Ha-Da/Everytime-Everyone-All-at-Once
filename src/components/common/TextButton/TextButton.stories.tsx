@@ -47,6 +47,15 @@ MidiumButton.args = {
 export const SmallButton = Template.bind({});
 SmallButton.args = {
   size: 'small',
+  backgroundColor: 'var(--red)',
+  children: '버튼',
+};
+
+export const SmallLinkButton = Template.bind({});
+SmallLinkButton.args = {
+  size: 'small',
   backgroundColor: 'var(--yellow)',
   children: '버튼',
+  as: 'a',
+  href: './',
 };
