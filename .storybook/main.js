@@ -1,3 +1,4 @@
+const svgrPlugin = require('vite-plugin-svgr').default;
 const path = require('path');
 
 module.exports = {
@@ -35,7 +36,14 @@ module.exports = {
         __NEXT_VERSION: '13.2.4',
       },
     };
-
+    config.plugins = [
+      ...config.plugins,
+      svgrPlugin({
+        svgrOptions: {
+          icon: true,
+        },
+      }),
+    ];
     return config;
   },
 };
