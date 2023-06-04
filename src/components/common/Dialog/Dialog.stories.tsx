@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { TextButton } from '../TextButton';
 import { Dialog, DialogProps } from './Dialog';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
@@ -15,58 +16,66 @@ export default {
   },
 } as ComponentMeta<typeof Dialog>;
 
-const Template: ComponentStory<typeof Dialog> = (args: DialogProps) => <Dialog {...args} />;
+const Template: ComponentStory<typeof Dialog> = (args: DialogProps) => {
+  const [showDialog, setShowDialog] = useState(true);
+  return <Dialog {...args} showDialog={showDialog} setShowDialog={setShowDialog} />;
+};
 
 export const DeleteDialog = Template.bind({});
 DeleteDialog.args = {
-  showDialog: true,
-  children: (
-    <>
-      <div style={{ marginTop: '10px' }}>삭제하시겠습니까?</div>
-      <div style={{ display: 'flex', gap: '28px' }}>
-        <TextButton backgroundColor="var(--gray)" onClick={() => {}} size="small" type="button">
-          취소
-        </TextButton>
-        <TextButton backgroundColor="var(--red)" onClick={() => {}} size="small" type="submit">
-          삭제
-        </TextButton>
-      </div>
-    </>
+  title: '삭제하시겠습니까?',
+  LeftButton: (
+    <TextButton backgroundColor="var(--gray)" onClick={() => {}} size="small" type="button">
+      취소
+    </TextButton>
+  ),
+  RightButton: (
+    <TextButton
+      backgroundColor="var(--red)"
+      onClick={() => {
+        console.log('삭제');
+      }}
+      size="small"
+      type="submit"
+    >
+      삭제
+    </TextButton>
   ),
 };
 
 export const GenerateDialog = Template.bind({});
 GenerateDialog.args = {
-  showDialog: true,
-  children: (
-    <>
-      <div style={{ marginTop: '10px' }}>어떤 약속을 원하십니까?</div>
-      <div style={{ display: 'flex', gap: '28px' }}>
-        <TextButton backgroundColor="var(--purple)" onClick={() => {}} size="small" type="button">
-          그룹
-        </TextButton>
-        <TextButton backgroundColor="var(--yellow)" onClick={() => {}} size="small" type="submit">
-          단일
-        </TextButton>
-      </div>
-    </>
+  title: '어떤 약속을 원하십니까?',
+  LeftButton: (
+    <TextButton as="a" href="./group" backgroundColor="var(--purple)" size="small" type="button">
+      그룹
+    </TextButton>
+  ),
+  RightButton: (
+    <TextButton as="a" href="./single" backgroundColor="var(--yellow)" size="small" type="button">
+      단일
+    </TextButton>
   ),
 };
 
 export const ConfirmDialog = Template.bind({});
 ConfirmDialog.args = {
-  showDialog: true,
-  children: (
-    <>
-      <div style={{ marginTop: '10px' }}>확정하시겠습니까?</div>
-      <div style={{ display: 'flex', gap: '28px' }}>
-        <TextButton backgroundColor="var(--gray)" onClick={() => {}} size="small" type="button">
-          취소
-        </TextButton>
-        <TextButton backgroundColor="var(--green)" onClick={() => {}} size="small" type="submit">
-          확정
-        </TextButton>
-      </div>
-    </>
+  title: '확정하시겠습니까?',
+  LeftButton: (
+    <TextButton backgroundColor="var(--gray)" onClick={() => {}} size="small" type="button">
+      취소
+    </TextButton>
+  ),
+  RightButton: (
+    <TextButton
+      backgroundColor="var(--green)"
+      onClick={() => {
+        console.log('확정');
+      }}
+      size="small"
+      type="submit"
+    >
+      확정
+    </TextButton>
   ),
 };

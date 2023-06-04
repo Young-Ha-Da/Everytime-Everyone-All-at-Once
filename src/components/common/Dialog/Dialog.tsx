@@ -1,24 +1,56 @@
-import { Dispatch, ReactNode, SetStateAction } from 'react';
+import { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components';
 
+const inactivateScroll = () => {
+  document.body.style.cssText = `
+    position: fixed; 
+    top: -${window.scrollY}px;
+    overflow-y: scroll;
+    width: 100%;`;
+};
+
+const activateScroll = () => {
+  const scrollY = document.body.style.top;
+  document.body.style.cssText = '';
+  window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+};
+
 export interface DialogProps {
-  children: ReactNode;
+  title: string;
+  LeftButton: ReactNode;
+  RightButton: ReactNode;
   showDialog: boolean;
   setShowDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-export const Dialog = ({ children, showDialog, setShowDialog }: DialogProps) => {
+export const Dialog = ({
+  title,
+  LeftButton,
+  RightButton,
+  showDialog,
+  setShowDialog,
+}: DialogProps) => {
   const closeDialog = () => {
     setShowDialog(false);
+    activateScroll();
   };
+
+  useEffect(() => {
+    inactivateScroll();
+    return () => activateScroll();
+  }, []);
 
   return createPortal(
     <>
       {showDialog && (
         <>
           <DialogContainer role="dialog" aria-modal={showDialog}>
-            {children}
+            <Title>{title}</Title>
+            <ButtonWrapper>
+              {LeftButton}
+              {RightButton}
+            </ButtonWrapper>
           </DialogContainer>
           <Dimmed onClick={closeDialog} />
         </>
@@ -44,6 +76,15 @@ const DialogContainer = styled.article`
   border: 1px solid var(--black);
   border-radius: 10px;
   background: var(--white);
+`;
+
+const Title = styled.div`
+  margin-top: 10px;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  gap: 28px;
 `;
 
 const Dimmed = styled.div`
