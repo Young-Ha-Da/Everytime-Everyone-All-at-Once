@@ -32,9 +32,7 @@ export const TextButton = ({
 };
 
 const StyledButton = styled.button<ButtonProps>`
-  ${({ size }) => {
-    return BUTTON_SIZE[size];
-  }};
+  ${({ size }) => BUTTON_SIZE[size]};
   background-color: ${({ backgroundColor }) => backgroundColor};
   overflow: hidden;
   text-overflow: ellipsis;
