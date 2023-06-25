@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 export default function Home() {
   const [user, setUser] = useState({ id: '', password: '' });
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [, setIsLoggedIn] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUser((prev) => ({ ...prev, [e.target.name]: e.target.value }));

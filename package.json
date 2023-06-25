@@ -40,6 +40,7 @@
     "@storybook/react": "^6.5.14",
     "@storybook/test-runner": "^0.9.4",
     "@storybook/testing-library": "^0.0.13",
+    "@svgr/webpack": "^8.0.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -66,7 +67,8 @@
     "prettier": "^2.8.7",
     "storybook-addon-next": "1.7.1",
     "storybook-addon-recoil-flow": "^1.4.0",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.2",
+    "vite-plugin-svgr": "^3.2.0"
   },
   "msw": {
     "workerDirectory": "public"
