@@ -2,8 +2,9 @@ import { useState } from 'react';
 import styled, { css } from 'styled-components';
 
 import { TextButton } from '../TextButton';
+import { getFormattedTimeFromDateString } from '@/utils';
 
-interface SingleDataItem {
+export interface SingleDataItem {
   id: string;
   time: string;
   members: string[];
@@ -25,10 +26,9 @@ export const SinglePlanCandidateList = ({
   return (
     <ListWrapper>
       {singleResult.map(({ time, members, id }, i) => {
-        const [year, month, day, hour, minute] = time.replace(/[-:]/g, ' ').split(' ');
         const detailVisible = detailVisibleList[i];
 
-        const formattedTime = `${year}.${month}.${day} 오전 ${hour}:${minute}`;
+        const formattedTime = getFormattedTimeFromDateString(time);
 
         return (
           <ItemWrapper isFirst={i === 0}>
