@@ -14,7 +14,8 @@ export const GlobalStyle = createGlobalStyle/*css*/ `
     --green: #7EBB94;
     --light-green: #D9EBDF;
     --purple: #C1BEFA;
-    --light-purple: #C1BEFA;
+    --semi-light-purple: #C1BEFA;
+    --light-purple: #E8E8FD;
     --yellow: #FEDB9A;
     --light-yellow: #FFF9EB;
 
