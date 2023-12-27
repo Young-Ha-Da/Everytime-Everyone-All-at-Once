@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 
 import { TextButton } from '../TextButton';
 
+import { getTimeFromDateString } from '@/utils';
 import { totalMembers } from '@/utils/mock';
 
 interface Group {
@@ -58,7 +59,9 @@ export const GroupPlanCandidateList = ({ groupResult, onConfirm }: GroupPlanCand
             {detailVisible && (
               <Detail className="group-plan-result-detail">
                 {schedule.map(({ from, to, group }, j) => {
-                  const formattedTimeRange = `${from.slice(11, 16)} - ${to.slice(11, 16)}`;
+                  const formattedTimeRange = `${getTimeFromDateString(
+                    from
+                  )} - ${getTimeFromDateString(to)}`;
 
                   return (
                     <DetailItem isFirst={j === 0}>
