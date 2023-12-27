@@ -4,11 +4,11 @@ import { SingleDataItem } from '@/components/common/SinglePlanCandidateList';
 
 import { getFormattedTimeFromDateString } from '@/utils';
 
-export interface SinglePlantResultProps {
+export interface SinglePlanResultProps {
   result: SingleDataItem;
 }
 
-export const SinglePlanResult = ({ result }: SinglePlantResultProps) => {
+export const SinglePlanResult = ({ result }: SinglePlanResultProps) => {
   const { time } = result;
   const formattedTime = getFormattedTimeFromDateString(time);
 
