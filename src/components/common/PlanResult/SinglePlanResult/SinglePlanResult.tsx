@@ -18,4 +18,5 @@ export const SinglePlanResult = ({ result }: SinglePlanResultProps) => {
 const Wrapper = styled.div`
   font-size: var(--text-md);
   font-weight: var(--text-bold);
+  text-align: center;
 `;
