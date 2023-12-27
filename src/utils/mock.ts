@@ -1,22 +1,6 @@
-interface Group {
-  name: string;
-  members: string[];
-}
-
-export interface ScheduleItem {
-  from: string;
-  to: string;
-  group: Group;
-}
-
-export interface DataItem {
-  id: string;
-  schedule: ScheduleItem[];
-}
-
 export const totalMembers = ['이', '박', '최', '정', '이2', '최2'];
 
-export const mock_group_data_list: DataItem[] = [
+export const mock_group_data_list = [
   {
     id: '1',
     schedule: [
@@ -97,4 +81,17 @@ export const mock_group_data_list: DataItem[] = [
       },
     ],
   },
+];
+
+export const mock_single_data_list = [
+  { id: '1', time: '2023-12-27 12:00:00', members: ['손', '이', '박'] },
+  { id: '2', time: '2023-12-27 11:00:00', members: ['손', '이', '박'] },
+  { id: '3', time: '2023-12-27 10:00:00', members: ['손', '이', '박'] },
+  { id: '4', time: '2023-12-27 13:00:00', members: ['손', '이', '박'] },
+  { id: '5', time: '2023-12-27 14:00:00', members: ['손', '이', '박'] },
+  { id: '6', time: '2023-12-27 15:00:00', members: ['손', '이', '박'] },
+  { id: '7', time: '2023-12-27 16:00:00', members: ['손', '이', '박'] },
+  { id: '8', time: '2023-12-27 11:30:00', members: ['손', '이', '박'] },
+  { id: '9', time: '2023-12-27 12:30:00', members: ['손', '이', '박'] },
+  { id: '10', time: '2023-12-27 15:30:00', members: ['손', '이', '박'] },
 ];
