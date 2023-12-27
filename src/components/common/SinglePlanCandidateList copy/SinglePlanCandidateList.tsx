@@ -9,12 +9,15 @@ interface SingleDataItem {
   members: string[];
 }
 
-export interface SinglePlanResultListProps {
+export interface SinglePlanCandidateListProps {
   singleResult: SingleDataItem[];
   onConfirm?: (planId: string) => void;
 }
 
-export const SinglePlanResultList = ({ singleResult, onConfirm }: SinglePlanResultListProps) => {
+export const SinglePlanCandidateList = ({
+  singleResult,
+  onConfirm,
+}: SinglePlanCandidateListProps) => {
   const [detailVisibleList, setDetailVisibleList] = useState(
     Array.from({ length: singleResult.length }, () => false)
   );

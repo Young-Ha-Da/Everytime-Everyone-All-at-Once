@@ -21,12 +21,12 @@ export interface GroupDataItem {
   schedule: ScheduleItem[];
 }
 
-export interface GroupPlanResultListProps {
+export interface GroupPlanCandidateListProps {
   groupResult: GroupDataItem[];
   onConfirm?: (planId: string) => void;
 }
 
-export const GroupPlanResultList = ({ groupResult, onConfirm }: GroupPlanResultListProps) => {
+export const GroupPlanCandidateList = ({ groupResult, onConfirm }: GroupPlanCandidateListProps) => {
   const [detailVisibleList, setDetailVisibleList] = useState(
     Array.from({ length: groupResult.length }, () => false)
   );
