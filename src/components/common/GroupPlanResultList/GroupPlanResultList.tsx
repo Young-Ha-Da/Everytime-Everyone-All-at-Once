@@ -1,10 +1,28 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
 
-import { DataItem, totalMembers } from '@/utils/mock';
+import { TextButton } from '../TextButton';
+
+import { totalMembers } from '@/utils/mock';
+
+interface Group {
+  name: string;
+  members: string[];
+}
+
+interface ScheduleItem {
+  from: string;
+  to: string;
+  group: Group;
+}
+
+export interface GroupDataItem {
+  id: string;
+  schedule: ScheduleItem[];
+}
 
 export interface GroupPlanResultListProps {
-  groupResult: DataItem[];
+  groupResult: GroupDataItem[];
   onConfirm?: (planId: string) => void;
 }
 
@@ -50,9 +68,12 @@ export const GroupPlanResultList = ({ groupResult, onConfirm }: GroupPlanResultL
                   );
                 })}
                 <ConfirmBtn
+                  size="small"
+                  backgroundColor="var(--light-yellow)"
                   onClick={() => {
                     onConfirm?.(id);
                   }}
+                  type="button"
                 >
                   확정
                 </ConfirmBtn>
@@ -70,6 +91,7 @@ const ListWrapper = styled.div`
   flex-direction: column;
   gap: 18px;
 `;
+
 const ItemWrapper = styled.div<{ isFirst: boolean }>`
   display: flex;
   flex-direction: column;
@@ -126,13 +148,8 @@ const DetailTimeRange = styled.div`
   font-size: var(--text-sm);
 `;
 
-const ConfirmBtn = styled.button`
+const ConfirmBtn = styled(TextButton)`
   position: absolute;
   bottom: 8px;
   right: 8px;
-  padding: 6px 10px;
-  border: 1px solid var(--black);
-  border-radius: var(--radius-bs);
-  background: var(--light-yellow);
-  font-size: var(--text-sm);
 `;

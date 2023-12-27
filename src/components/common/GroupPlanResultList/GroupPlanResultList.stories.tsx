@@ -1,8 +1,8 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import styled from 'styled-components';
 
-import { mock_group_data_list } from '@/utils/mock';
 import { GroupPlanResultList, GroupPlanResultListProps } from './GroupPlanResultList';
+import { mock_group_data_list } from '@/utils/mock';
 
 export default {
   title: 'Components/common/GroupPlanResultList',
