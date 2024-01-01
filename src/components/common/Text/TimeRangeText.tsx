@@ -1,14 +1,18 @@
+import { Datetime } from '@/type/Datetime';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
 export interface TimeRangeTextProps {
-  fromHour: string | number;
-  fromMinute: string | number;
-  toHour: string | number;
-  toMinute: string | number;
+  from: Datetime;
+  to: Datetime;
   css?: FlattenSimpleInterpolation;
 }
 
-export function TimeRangeText({ css, fromHour, fromMinute, toHour, toMinute }: TimeRangeTextProps) {
+export function TimeRangeText({ css, from, to }: TimeRangeTextProps) {
+  const fromHour = from ? from.hour() : '-';
+  const fromMinute = from ? from.minute() : '-';
+  const toHour = to ? to.hour() : '-';
+  const toMinute = to ? to.minute() : '-';
+
   return (
     <P css={css}>
       <span>{fromHour}</span>

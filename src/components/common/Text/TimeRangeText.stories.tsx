@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { TimeRangeText, TimeRangeTextProps } from './TimeRangeText';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 
@@ -17,10 +18,11 @@ const Template: ComponentStory<typeof TimeRangeText> = ({ ...args }: TimeRangeTe
   <TimeRangeText {...args} />
 );
 
+const from = dayjs();
+const to = dayjs();
+
 export const Default = Template.bind({});
 Default.args = {
-  fromHour: 12,
-  fromMinute: 0,
-  toHour: 14,
-  toMinute: 30,
+  from,
+  to,
 };
