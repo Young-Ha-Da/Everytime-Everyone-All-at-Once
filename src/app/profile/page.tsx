@@ -1,14 +1,14 @@
 'use client';
 
 import { Title } from '@/components';
-import Link from 'next/link';
 import { useState } from 'react';
 
 export default function Home() {
   return (
     <main>
-      <Title>메인 페이지</Title>
-      <Link href={'/plan'}>로그인</Link>
+      <Title>프로필 페이지</Title>
+      <p>개인 정보 수정 + 로그아웃 기능 구현해야 함</p>
+      {/* <Navigation /> */}
     </main>
   );
 }
