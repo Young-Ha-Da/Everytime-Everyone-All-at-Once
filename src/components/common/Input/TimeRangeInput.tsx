@@ -1,30 +1,78 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { Dayjs } from 'dayjs';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
-const TimeInput = ({
-  label,
-  register,
-  pattern,
-}: {
+interface TimeInputProps {
   label: string;
-  register: UseFormRegisterReturn;
-  pattern: string;
-}) => {
+  value: Dayjs;
+  onChange: (date: Dayjs) => void;
+}
+
+const TimeInput = (props: TimeInputProps) => {
+  const { label, value, onChange } = props;
+  const [time, setTime] = useState<{
+    hour?: number;
+    minute?: number;
+  }>({
+    hour: value.hour(),
+    minute: value.minute(),
+  });
+
+  useEffect(() => {
+    setTime({
+      hour: value.hour(),
+      minute: value.minute(),
+    });
+  }, [value]);
+
+  const handleChange = (type: 'hour' | 'minute', e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value ? Number(e.target.value) : undefined;
+    const newTime = {
+      hour: type === 'hour' ? newValue : time.hour,
+      minute: type === 'minute' ? newValue : time.minute,
+    };
+    setTime(newTime);
+  };
+
+  const isValidHour = (hour: number) => 0 <= hour && hour <= 23;
+  const isValidMinute = (minute: number) => 0 <= minute && minute <= 59;
+
+  const handleBlur = () => {
+    const hour = time.hour ?? 0;
+    const minute = time.minute ?? 0;
+    const isValid = isValidHour(hour) && isValidMinute(minute);
+    isValid
+      ? onChange(value.hour(hour).minute(minute))
+      : setTime({ hour: value.hour(), minute: value.minute() });
+  };
+
   return (
     <InputBox>
       <Input
-        id={register.name}
-        type="text"
-        inputMode="numeric"
-        pattern={pattern}
-        placeholder="00"
+        id={`${label}-hour`}
+        type="number"
         autoComplete="off"
+        placeholder="00"
+        min={0}
+        max={23}
         maxLength={2}
-        {...register}
+        value={time.hour}
+        onChange={(e) => handleChange('hour', e)}
+        onBlur={handleBlur}
       />
-      <Label className="srOnly" htmlFor={register.name}>
-        {label}
-      </Label>
+      <span>:</span>
+      <Input
+        id={`${label}-minute`}
+        type="number"
+        autoComplete="off"
+        placeholder="00"
+        min={0}
+        max={58}
+        maxLength={2}
+        value={time.minute}
+        onChange={(e) => handleChange('minute', e)}
+        onBlur={handleBlur}
+      />
     </InputBox>
   );
 };
@@ -36,48 +84,37 @@ const InputBox = styled.div`
   background-color: transparent;
 `;
 const Input = styled.input`
-  width: 30px;
+  width: 20px;
   padding: 12px 0;
   text-align: center;
   background-color: transparent;
+
+  ::-webkit-inner-spin-button {
+    display: none;
+  }
 `;
-const Label = styled.label``;
 
 export interface TimeRangeInputProps {
-  fromHourRegister: UseFormRegisterReturn;
-  fromMinuteRegister: UseFormRegisterReturn;
-  toHourRegister: UseFormRegisterReturn;
-  toMinuteRegister: UseFormRegisterReturn;
+  label: string;
+  from: Dayjs;
+  onChangeFrom: (date: Dayjs) => void;
+  to: Dayjs;
+  onChangeTo: (date: Dayjs) => void;
   /**
    * 컴포넌트 레이아웃을 잡을 때 덮어씌울 css. styled-component의 css함수로 생성한 스타일을 넣어주세요.
    */
   css?: FlattenSimpleInterpolation;
 }
 
-export const TimeRangeInput = ({
-  fromHourRegister,
-  fromMinuteRegister,
-  toHourRegister,
-  toMinuteRegister,
-  css,
-}: TimeRangeInputProps) => {
-  const hourPattern = '^(0?[0-9]|1[0-9]|2[0-3])$';
-  const minutePattern = '^([0-9]|[1-5][0-9])$';
+export const TimeRangeInput = (props: TimeRangeInputProps) => {
+  const { label, from, onChangeFrom, to, onChangeTo, css } = props;
 
   return (
     // props으로 받아온 css를 넘겨줘야 하는데 타입 지정 안해주면 에러남
     <Container css={css}>
-      <Div>
-        <TimeInput label="시작 시간: 시간" pattern={hourPattern} register={fromHourRegister} />
-        <span>:</span>
-        <TimeInput label="시작 시간: 분" pattern={minutePattern} register={fromMinuteRegister} />
-      </Div>
+      <TimeInput value={from} onChange={onChangeFrom} label={`${label}-from`} />
       <span>~</span>
-      <Div>
-        <TimeInput label="종료 시간: 시간" pattern={hourPattern} register={toHourRegister} />
-        <span>:</span>
-        <TimeInput label="종료 시간: 분" pattern={minutePattern} register={toMinuteRegister} />
-      </Div>
+      <TimeInput value={to} onChange={onChangeTo} label={`${label}-to`} />
     </Container>
   );
 };
@@ -96,12 +133,4 @@ const Container = styled.div<Partial<TimeRangeInputProps>>`
   &:has(*:focus) {
     background-color: #fff9eb;
   }
-`;
-
-const Div = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  background-color: transparent;
 `;
