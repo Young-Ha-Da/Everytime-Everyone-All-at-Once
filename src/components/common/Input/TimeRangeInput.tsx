@@ -2,6 +2,47 @@ import { Dayjs } from 'dayjs';
 import { ChangeEvent, useEffect, useState } from 'react';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
+export interface TimeRangeInputProps {
+  label: string;
+  from: Dayjs;
+  onChangeFrom: (date: Dayjs) => void;
+  to: Dayjs;
+  onChangeTo: (date: Dayjs) => void;
+  /**
+   * 컴포넌트 레이아웃을 잡을 때 덮어씌울 css. styled-component의 css함수로 생성한 스타일을 넣어주세요.
+   */
+  css?: FlattenSimpleInterpolation;
+}
+
+export const TimeRangeInput = (props: TimeRangeInputProps) => {
+  const { label, from, onChangeFrom, to, onChangeTo, css } = props;
+
+  return (
+    // props으로 받아온 css를 넘겨줘야 하는데 타입 지정 안해주면 에러남
+    <Container css={css}>
+      <TimeInput value={from} onChange={onChangeFrom} label={`${label}-from`} />
+      <span>~</span>
+      <TimeInput value={to} onChange={onChangeTo} label={`${label}-to`} />
+    </Container>
+  );
+};
+
+const Container = styled.div<Partial<TimeRangeInputProps>>`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 260px;
+  height: 44px;
+  padding: 12px 30px;
+  border: 1px solid var(--black);
+  border-radius: var(--radius-bs);
+  ${({ css }) => css}
+
+  &:has(*:focus) {
+    background-color: #fff9eb;
+  }
+`;
+
 interface TimeInputProps {
   label: string;
   value: Dayjs;
@@ -91,46 +132,5 @@ const Input = styled.input`
 
   ::-webkit-inner-spin-button {
     display: none;
-  }
-`;
-
-export interface TimeRangeInputProps {
-  label: string;
-  from: Dayjs;
-  onChangeFrom: (date: Dayjs) => void;
-  to: Dayjs;
-  onChangeTo: (date: Dayjs) => void;
-  /**
-   * 컴포넌트 레이아웃을 잡을 때 덮어씌울 css. styled-component의 css함수로 생성한 스타일을 넣어주세요.
-   */
-  css?: FlattenSimpleInterpolation;
-}
-
-export const TimeRangeInput = (props: TimeRangeInputProps) => {
-  const { label, from, onChangeFrom, to, onChangeTo, css } = props;
-
-  return (
-    // props으로 받아온 css를 넘겨줘야 하는데 타입 지정 안해주면 에러남
-    <Container css={css}>
-      <TimeInput value={from} onChange={onChangeFrom} label={`${label}-from`} />
-      <span>~</span>
-      <TimeInput value={to} onChange={onChangeTo} label={`${label}-to`} />
-    </Container>
-  );
-};
-
-const Container = styled.div<Partial<TimeRangeInputProps>>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 260px;
-  height: 44px;
-  padding: 12px 30px;
-  border: 1px solid var(--black);
-  border-radius: var(--radius-bs);
-  ${({ css }) => css}
-
-  &:has(*:focus) {
-    background-color: #fff9eb;
   }
 `;
