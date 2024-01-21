@@ -1,64 +1,94 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { Dayjs } from 'dayjs';
+import { ChangeEvent, useEffect, useState } from 'react';
 import styled, { FlattenSimpleInterpolation } from 'styled-components';
 
 export interface TimeInputProps {
-  /**
-   * react-hook-form의 useForm으로 받아오는 register함수의 반환값.
-   */
-  hourRegister: UseFormRegisterReturn;
-  /**
-   * react-hook-form의 useForm으로 받아오는 register함수의 반환값.
-   */
-  minuteRegister: UseFormRegisterReturn;
-  /**
-   * 컴포넌트 레이아웃을 잡을 때 덮어씌울 css. styled-component의 css함수로 생성한 스타일을 넣어주세요.
-   */
+  label: string;
+  value: Dayjs;
+  onChange: (date: Dayjs) => void;
   css?: FlattenSimpleInterpolation;
 }
 
-export const TimeInput = ({ hourRegister, minuteRegister, css }: TimeInputProps) => {
+export const TimeInput = (props: TimeInputProps) => {
+  const { label, value, onChange, css } = props;
+  const [time, setTime] = useState<{
+    hour?: number;
+    minute?: number;
+  }>({
+    hour: value.hour(),
+    minute: value.minute(),
+  });
+
+  useEffect(() => {
+    setTime({
+      hour: value.hour(),
+      minute: value.minute(),
+    });
+  }, [value]);
+
+  const handleChange = (type: 'hour' | 'minute', e: ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value ? Number(e.target.value) : undefined;
+    const newTime = {
+      hour: type === 'hour' ? newValue : time.hour,
+      minute: type === 'minute' ? newValue : time.minute,
+    };
+    setTime(newTime);
+  };
+
+  const isValidHour = (hour: number) => 0 <= hour && hour <= 23;
+  const isValidMinute = (minute: number) => 0 <= minute && minute <= 59;
+
+  const handleBlur = () => {
+    const hour = time.hour ?? 0;
+    const minute = time.minute ?? 0;
+    const isValid = isValidHour(hour) && isValidMinute(minute);
+    isValid
+      ? onChange(value.hour(hour).minute(minute))
+      : setTime({ hour: value.hour(), minute: value.minute() });
+  };
+
   return (
-    // props으로 받아온 css를 넘겨줘야 하는데 타입 지정 안해주면 에러남
-    <Container css={css}>
-      <InputBox>
-        <Input
-          id={hourRegister.name}
-          type="text"
-          inputMode="numeric"
-          pattern="^(0?[0-9]|1[0-9]|2[0-3])$"
-          placeholder="00"
-          autoComplete="off"
-          maxLength={2}
-          {...hourRegister}
-        />
-        <Label htmlFor={hourRegister.name}>시간</Label>
-      </InputBox>
-      <InputBox>
-        <Input
-          id={minuteRegister.name}
-          type="text"
-          inputMode="numeric"
-          pattern="^([0-9]|[1-5][0-9])$"
-          placeholder="00"
-          autoComplete="off"
-          maxLength={2}
-          {...minuteRegister}
-        />
-        <Label htmlFor={minuteRegister.name}>분</Label>
-      </InputBox>
-    </Container>
+    <InputBox css={css}>
+      <Input
+        id={`${label}-hour`}
+        type="number"
+        autoComplete="off"
+        placeholder="00"
+        min={0}
+        max={23}
+        maxLength={2}
+        value={time.hour}
+        onChange={(e) => handleChange('hour', e)}
+        onBlur={handleBlur}
+      />
+      <span>시간</span>
+      <Input
+        id={`${label}-minute`}
+        type="number"
+        autoComplete="off"
+        placeholder="00"
+        min={0}
+        max={58}
+        maxLength={2}
+        value={time.minute}
+        onChange={(e) => handleChange('minute', e)}
+        onBlur={handleBlur}
+      />
+      <span>분</span>
+    </InputBox>
   );
 };
 
-const Container = styled.div<Partial<TimeInputProps>>`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+const InputBox = styled.div<{ css?: FlattenSimpleInterpolation }>`
   width: 260px;
   height: 44px;
   padding: 12px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: 1px solid var(--black);
   border-radius: var(--radius-bs);
+  background-color: transparent;
   ${({ css }) => css}
 
   &:has(*:focus) {
@@ -66,37 +96,13 @@ const Container = styled.div<Partial<TimeInputProps>>`
   }
 `;
 
-const InputBox = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background-color: transparent;
-`;
 const Input = styled.input`
-  width: 30px;
+  width: 20px;
   padding: 12px 0;
-  text-align: left;
+  text-align: center;
   background-color: transparent;
+
+  ::-webkit-inner-spin-button {
+    display: none;
+  }
 `;
-const Label = styled.label``;
-
-// 1. 스타일드 컴포넌트 인터페이스 만들고 그거를 확장
-
-// interface Container {
-//   css?: FlattenSimpleInterpolation;
-// }
-
-// interface TimeInputProps extends Container {
-//   hourRegister: UseFormRegisterReturn;
-//   minuteRegister: UseFormRegisterReturn;
-// }
-
-// 2. 컴포넌트 props 인터페이스를 Partial로 사용
-
-// interface TimeInputProps {
-//   hourRegister: UseFormRegisterReturn;
-//   minuteRegister: UseFormRegisterReturn;
-//   css?: FlattenSimpleInterpolation;
-// }
-
-// type Container = Partial<TimeInputProps>;
