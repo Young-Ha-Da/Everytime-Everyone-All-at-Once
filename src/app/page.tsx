@@ -1,6 +1,7 @@
 'use client';
 
-import { TimeRangeInput, Title } from '@/components';
+import { TimeInput, TimeRangeInput, Title } from '@/components';
+import { Calendar } from '@/components/common/Calendar';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -20,6 +21,8 @@ export default function Home() {
         to={to}
         onChangeTo={setTo}
       />
+      <TimeInput label="TimeInput" value={from} onChange={setFrom} />
+      <Calendar onClickDate={console.log} />
     </main>
   );
 }
