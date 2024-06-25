@@ -1,9 +1,10 @@
-import { useForm } from 'react-hook-form';
-import { TimeRangeInput, TimeRangeInputProps } from './TimeRangeInput';
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { userEvent, within } from '@storybook/testing-library';
 import { rgb2hex } from '@/lib/color';
 import { expect } from '@storybook/jest';
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { userEvent, within } from '@storybook/testing-library';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import { TimeRangeInput, TimeRangeInputProps } from './TimeRangeInput';
 
 export default {
   title: 'Components/common/TimeRangeInput',
@@ -18,13 +19,16 @@ export default {
 } as ComponentMeta<typeof TimeRangeInput>;
 
 const Template: ComponentStory<typeof TimeRangeInput> = ({ css }: TimeRangeInputProps) => {
-  const { register } = useForm();
+  const [from, setFrom] = useState(dayjs());
+  const [to, setTo] = useState(dayjs());
+
   return (
     <TimeRangeInput
-      fromHourRegister={register('fromHour')}
-      fromMinuteRegister={register('fromMinute')}
-      toHourRegister={register('toHour')}
-      toMinuteRegister={register('toMinute')}
+      label={'TimeRangeInput'}
+      from={from}
+      onChangeFrom={setFrom}
+      to={to}
+      onChangeTo={setTo}
       css={css}
     />
   );

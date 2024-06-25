@@ -1,9 +1,10 @@
-import { TimeInput, TimeInputProps } from './TimeInput';
+import { rgb2hex } from '@/lib/color';
+import { expect } from '@storybook/jest';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { userEvent, within } from '@storybook/testing-library';
-import { expect } from '@storybook/jest';
-import { rgb2hex } from '@/lib/color';
-import { useForm } from 'react-hook-form';
+import dayjs from 'dayjs';
+import { useState } from 'react';
+import { TimeInput, TimeInputProps } from './TimeInput';
 
 export default {
   title: 'Components/common/TimeInput',
@@ -18,10 +19,9 @@ export default {
 } as ComponentMeta<typeof TimeInput>;
 
 const Template: ComponentStory<typeof TimeInput> = ({ css }: TimeInputProps) => {
-  const { register } = useForm();
-  return (
-    <TimeInput hourRegister={register('hour')} minuteRegister={register('minute')} css={css} />
-  );
+  const [time, setTime] = useState(dayjs());
+
+  return <TimeInput label="TimeInput" value={time} onChange={setTime} css={css} />;
 };
 
 export const Default = Template.bind({});

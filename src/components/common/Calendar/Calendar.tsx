@@ -1,73 +1,81 @@
-import { Dispatch, SetStateAction } from 'react';
+import dayjs, { Dayjs } from 'dayjs';
+import { useState } from 'react';
 import styled from 'styled-components';
-import { ReactComponent as ArrowDown } from '@/assets/caret-down-solid.svg';
 
 export interface CalendarProps {
-  currentDate: Date;
-  setCurrentDate: Dispatch<SetStateAction<Date>>;
-  selectedDates?: Number[];
-  availableDates?: Number[];
-  onClickDate: (date: Number) => void;
-}
-
-interface DateGridProps {
-  firstDay: number;
+  onClickDate: (date: Dayjs, selectedDates?: Dayjs[]) => void;
+  availableDates?: Dayjs[];
+  selected?: Dayjs[];
+  multiSelectable?: boolean;
 }
 
 const DAYS = ['일', '월', '화', '수', '목', '금', '토'];
 
-export const Calendar = ({
-  currentDate,
-  setCurrentDate,
-  selectedDates,
-  availableDates,
-  onClickDate,
-}: CalendarProps) => {
-  const [year, month] = [currentDate.getFullYear(), currentDate.getMonth()];
-  const firstDay = currentDate.getDay() + 1;
-  const lastDate = new Date(year, month + 1, 0).getDate();
-  const dates = Array.from({ length: lastDate }, (_, i) => i + 1);
+export const Calendar = (props: CalendarProps) => {
+  const { selected, multiSelectable, availableDates, onClickDate } = props;
+
+  const [dateObj, setDateObj] = useState(dayjs());
+  const [selectedDates, setSelectedDates] = useState<Dayjs[]>(selected ?? []);
+  const [year, month] = [dateObj.year(), dateObj.month()];
+
+  const dates = Array.from({ length: dateObj.daysInMonth() }, (_, i) => i + 1);
+
+  const isSelected = (date: Dayjs) =>
+    selectedDates.some((selected) => selected.isSame(date, 'date'));
+  const isDisabled = (date: Dayjs) => {
+    if (!availableDates) return false;
+
+    return availableDates.length === 0 || !availableDates.some((d) => d.isSame(date, 'date'));
+  };
+  const getDateClassName = (date: Dayjs) => {
+    const selected = isSelected(date) ? 'selected' : '';
+    const disabled = isDisabled(date) ? 'disabled' : '';
+
+    return `${selected} ${disabled}`.trim();
+  };
+
+  const handleChangeMonth = (month: number) => {
+    setDateObj(dateObj.month(month));
+  };
+
+  const handleClickDate = (date: Dayjs) => {
+    if (multiSelectable) {
+      isSelected(date)
+        ? setSelectedDates(selectedDates.filter((selected) => !selected.isSame(date)))
+        : setSelectedDates([...selectedDates, date]);
+    } else {
+      setSelectedDates(selectedDates.find((selected) => selected.isSame(date)) ? [] : [date]);
+    }
+
+    onClickDate(date, selectedDates);
+  };
 
   return (
     <CalendarWrapper>
       <MonthNavigation>
-        <button
-          onClick={() => {
-            setCurrentDate(new Date(year, month - 1, 1));
-          }}
-        >
+        <button onClick={() => handleChangeMonth(month - 1)}>
           <ArrowLeft />
         </button>
         <Title>{`${year}년 ${month + 1}월`}</Title>
-        <button
-          onClick={() => {
-            setCurrentDate(new Date(year, month + 1, 1));
-          }}
-        >
+        <button onClick={() => handleChangeMonth(month + 1)}>
           <ArrowRight />
         </button>
       </MonthNavigation>
-      <DateGrid firstDay={firstDay}>
+      <DateGrid firstDay={dateObj.startOf('month').day()}>
         {DAYS.map((day) => (
-          <Day>{day}</Day>
+          <Day key={day}>{day}</Day>
         ))}
-        {dates.map((date) => {
-          const selected = selectedDates?.includes(date) ? 'selected' : '';
-          const disabled = availableDates?.includes(date) ? '' : 'disabled';
-          const hasAvailableDates = availableDates !== undefined;
-          const className = `${selected} ${hasAvailableDates ? disabled : ''}`;
-
-          return (
-            <DateItem
-              className={className}
-              onClick={() => {
-                onClickDate(date);
-              }}
-            >
-              {date}
-            </DateItem>
-          );
-        })}
+        {dates.map((date) => (
+          <DateItem
+            key={date}
+            className={getDateClassName(dateObj.date(date))}
+            onClick={() => {
+              handleClickDate(dateObj.date(date));
+            }}
+          >
+            {date}
+          </DateItem>
+        ))}
       </DateGrid>
     </CalendarWrapper>
   );
@@ -90,12 +98,14 @@ const MonthNavigation = styled.div`
   gap: 10px;
 `;
 
-const ArrowLeft = styled(ArrowDown)`
+const ArrowLeft = styled('div')`
+  width: 20px;
   height: 20px;
   rotate: 90deg;
 `;
 
-const ArrowRight = styled(ArrowDown)`
+const ArrowRight = styled('div')`
+  width: 20px;
   height: 20px;
   rotate: -90deg;
 `;
@@ -107,7 +117,7 @@ const Title = styled.div`
   font-weight: var(--text-bold);
 `;
 
-const DateGrid = styled.div<DateGridProps>`
+const DateGrid = styled.div<{ firstDay: number }>`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
